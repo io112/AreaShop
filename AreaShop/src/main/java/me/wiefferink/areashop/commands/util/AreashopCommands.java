@@ -17,6 +17,7 @@ import me.wiefferink.areashop.commands.GroupAddCommand;
 import me.wiefferink.areashop.commands.GroupDelCommand;
 import me.wiefferink.areashop.commands.GroupInfoCommand;
 import me.wiefferink.areashop.commands.GroupListCommand;
+import me.wiefferink.areashop.commands.GuiCommand;
 import me.wiefferink.areashop.commands.HelpCommand;
 import me.wiefferink.areashop.commands.InfoBaseCommand;
 import me.wiefferink.areashop.commands.InfoCommand;
@@ -82,6 +83,7 @@ public class AreashopCommands {
             GroupDelCommand.class,
             GroupInfoCommand.class,
             GroupListCommand.class,
+            GuiCommand.class,
             HelpCommand.class,
             InfoCommand.class,
             InfoBaseCommand.class,
