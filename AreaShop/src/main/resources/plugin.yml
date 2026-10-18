@@ -51,6 +51,7 @@ permissions:
       areashop.delsign: true
       areashop.renttimebypass: true
       areashop.me: true
+      areashop.gui: true
       areashop.resellall: true
       areashop.stopresellall: true
       areashop.addfriendall: true
@@ -222,6 +223,9 @@ permissions:
     default: op
   areashop.me:
     description: Allows you to get information about your regions
+    default: true
+  areashop.gui:
+    description: Allows you to open the menu with the regions you rent
     default: true
   areashop.setownerrent:
     description: Allows you to set the owner of rent regions
