@@ -27,7 +27,8 @@ The project is no longer maintained. See this alternative <a href="https://githu
 [►Compiling](https://github.com/md5sha256/AreaShop/tree/dev/bleeding/documentation/compiling.md)&nbsp;&nbsp;
 [►Modules/classes overview](https://github.com/NLthijs48/AreaShop/wiki/Modules,-packages-and-classes-overview)
 [►Javadocs](https://wiefferink.me/AreaShop/javadocs/)
-[►Development builds](http://jenkins.wiefferink.me/job/AreaShop)<br/>
+[►Development builds](https://github.com/io112/AreaShop/releases/tag/dev-build)&nbsp;&nbsp;
+[►Releasing](https://github.com/io112/AreaShop/tree/dev/bleeding/documentation/releasing.md)<br/>
 **Connections:**
 [►AreaShop in Spigot Resources](http://www.spigotmc.org/resources/areashop.2991/)&nbsp;&nbsp;
 [►AreaShop on BukkitDev](http://dev.bukkit.org/bukkit-plugins/regionbuyandrent/)
