@@ -153,7 +153,7 @@ public class InfoCommand extends AreashopCommandBean {
         int itemsPerPage = maximumItems - 2;
         List<? extends GeneralRegion> regions;
         if (filterGroup != null) {
-            regions = regionStream.filter(generalRegion -> !filterGroup.isMember(generalRegion)).toList();
+            regions = regionStream.filter(filterGroup::isMember).toList();
         } else {
             regions = regionStream.toList();
         }
