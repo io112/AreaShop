@@ -5,7 +5,7 @@ import java.util.StringJoiner;
 
 public class VersionUtil {
 
-    public static final VersionData MC_1_21 = new VersionData(1, 21);
+    public static final VersionData MC_1_20_6 = new VersionData(1, 20, 6);
 
     @Nonnull
     public static String padTrailingZero(@Nonnull String minecraftVersion) {

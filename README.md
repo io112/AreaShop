@@ -34,8 +34,8 @@ The project is no longer maintained. See this alternative <a href="https://githu
 [►AreaShop on BukkitDev](http://dev.bukkit.org/bukkit-plugins/regionbuyandrent/)
 
 ### Required dependencies
-* Java 17 or higher (latest recommended)
-* Bukkit/Spigot 1.17.2 or newer (hybrids such as Mohist are not supported)
+* Java 21 or higher
+* Paper 1.20.6 or newer (Spigot and hybrids such as Mohist are not supported)
 * [WorldGuard](http://dev.bukkit.org/bukkit-plugins/worldguard/): 7.0.7 or newer
 * [WorldEdit](http://dev.bukkit.org/bukkit-plugins/worldedit/): 7.2.12 or newer
 * [Vault](http://dev.bukkit.org/bukkit-plugins/vault/): 1.7.3 or higher

@@ -53,7 +53,7 @@ dependencies {
         runtimeOnly(projects.adapters.plugins.fastasyncworldedit)
         runtimeOnly(projects.adapters.plugins.essentials)
     }
-    testImplementation("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
+    testImplementation(libs.paper)
     testImplementation("com.github.seeseemelk:MockBukkit-v1.21:3.131.0")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.1")
@@ -130,7 +130,7 @@ tasks {
         // Configure the Minecraft version for our task.
         // This is the only required configuration besides applying the plugin.
         // Your plugin's jar (or shadowJar if present) will be used automatically.
-        minecraftVersion("1.21.1")
+        minecraftVersion("1.20.6")
 
         downloadPlugins {
             github("EssentialsX", "essentials", "2.20.1", "EssentialsX-2.20.1.jar")
