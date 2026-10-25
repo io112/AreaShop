@@ -20,18 +20,18 @@
   - "[gold]%0% [gray]-[reset]"
   - "    hover: %lang:action|Используй %0%|%"
   - "    command: %0%"
-"region": "%lang:tRegionDisplay|%region%|%displayname%|%"
+"region": "%lang:tRegionDisplay%"
 "tRegion":
   - "[bold]%0%[/bold]"
   - "    hover: Регион %0%"
   - "    hover: %lang:action|Информация о регионе|%"
   - "    command: /areashop info region %0%"
 "tRegionDisplay":
-  - "[bold]%1%[/bold]"
-  - "    hover: Регион %1%"
-  - "    hover: [gray]ID: %0%"
+  - "[bold]%displayname%[/bold]"
+  - "    hover: Регион %displayname%"
+  - "    hover: [gray]ID: %region%"
   - "    hover: %lang:action|Информация о регионе|%"
-  - "    command: /areashop info region %0%"
+  - "    command: /areashop info region %region%"
 "displayname-label": "%0% (%1%)"
 "player": "%lang:tPlayer|%player%|%"
 "tPlayer":

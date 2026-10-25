@@ -20,16 +20,16 @@ command: <click:run_command:'%1%'><hover:show_text:'%lang:action|Use %1%|%'><bol
 helpCommand: <click:run_command:'%0%'><hover:show_text:'%lang:action|Use %0%|%'><gold>%0%
   </gold><gray>-
 
-region: '%lang:tRegionDisplay|%region%|%displayname%|%'
+region: '%lang:tRegionDisplay%'
 
 tRegion: |-
   <click:run_command:'/areashop info region %0%'><hover:show_text:'Region %0%
   %lang:action|Region information|%'><bold>%0%
 
 tRegionDisplay: |-
-  <click:run_command:'/areashop info region %0%'><hover:show_text:'Region %1%
-  <gray>ID: %0%</gray>
-  %lang:action|Region information|%'><bold>%1%
+  <click:run_command:'/areashop info region %region%'><hover:show_text:'Region %displayname%
+  <gray>ID: %region%</gray>
+  %lang:action|Region information|%'><bold>%displayname%
 
 displayname-label: "%0% (%1%)"
 

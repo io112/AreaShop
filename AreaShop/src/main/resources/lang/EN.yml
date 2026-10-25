@@ -23,7 +23,7 @@ helpCommand:
   - "    hover: %lang:action|Use %0%|%"
   - "    command: %0%"
 
-region: "%lang:tRegionDisplay|%region%|%displayname%|%"
+region: "%lang:tRegionDisplay%"
 
 tRegion:
   - "[bold]%0%[/bold]"
@@ -32,11 +32,11 @@ tRegion:
   - "    command: /areashop info region %0%"
 
 tRegionDisplay:
-  - "[bold]%1%[/bold]"
-  - "    hover: Region %1%"
-  - "    hover: [gray]ID: %0%"
+  - "[bold]%displayname%[/bold]"
+  - "    hover: Region %displayname%"
+  - "    hover: [gray]ID: %region%"
   - "    hover: %lang:action|Region information|%"
-  - "    command: /areashop info region %0%"
+  - "    command: /areashop info region %region%"
 displayname-label: "%0% (%1%)"
 
 player: "%lang:tPlayer|%player%|%"
