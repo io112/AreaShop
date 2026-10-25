@@ -70,7 +70,7 @@ public class SetGroupDisplayNameCommand extends AreashopCommandBean {
             throw new AreaShopCommandException("setgroupdisplayname-noPermission");
         }
         RegionGroup group = context.get(KEY_GROUP);
-        String displayName = context.getOrDefault(KEY_NAME, "").strip();
+        String displayName = SetDisplayNameCommand.stripQuotes(context.getOrDefault(KEY_NAME, "").strip());
         if (displayName.isEmpty() || "reset".equalsIgnoreCase(displayName)) {
             group.setDisplayName(null);
             this.messageBridge.message(context.sender().sender(), "setgroupdisplayname-successRemoved", group.getName(), group.getDisplayName());

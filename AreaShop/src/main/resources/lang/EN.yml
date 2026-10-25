@@ -349,6 +349,7 @@ setprice-successRent: "Price of region %lang:region% changed to %price% per %dur
 setprice-successBuy: "Price of region %lang:region% changed to %price%."
 setprice-successRemoved: "Price of %lang:region% has been removed, it will now use the price from a group or the default.yml file, new price: %price%."
 setprice-noLandlord: "You don't have permission to change the price because you are not the landlord of %lang:region%."
+setdisplayname-help: "/as setdisplayname [name] [--region <region>], the region you stand in is used if no region is given; without a name the display name is removed."
 setdisplayname-noPermission: "You don't have permission to change the display name of a region."
 setdisplayname-noLandlord: "You don't have permission to change the display name because you are not the landlord of %lang:region%."
 setdisplayname-success: "Display name of region %region% changed to %displayname%."

@@ -52,6 +52,7 @@ signTags:
 # Readable names for region groups (made with '/as groupadd'), shown to players instead of the group name.
 # A display name set with '/as setgroupdisplayname' (stored in groups.yml) takes precedence over this list.
 # Region display names are set with '/as setdisplayname' and can be used with the %displayname% tag.
+# Signs always show the display name, %region% on a sign line is shown as %displayname%.
 # Example:
 #   groupDisplayNames:
 #     spawn: 'Спавн'

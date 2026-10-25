@@ -281,6 +281,7 @@
 "setprice-successBuy": "Цену региона %lang:region% изменено на %price%."
 "setprice-successRemoved": "Цена в %lang:region% была удалена, использование новой цены из группы или файла default.yml, новая цена: %price%."
 "setprice-noLandlord": "У вас нет разрешения на изменение цены, потому что вы не землевладелец в %lang:region%."
+"setdisplayname-help": "/as setdisplayname [имя] [--region <регион>], если регион не указан, будет выбран регион, в котором вы находитесь; без имени отображаемое имя удаляется."
 "setdisplayname-noPermission": "У вас нет разрешения на изменение отображаемого имени региона."
 "setdisplayname-noLandlord": "У вас нет разрешения на изменение отображаемого имени, потому что вы не землевладелец в %lang:region%."
 "setdisplayname-success": "Отображаемое имя региона %region% изменено на %displayname%."
