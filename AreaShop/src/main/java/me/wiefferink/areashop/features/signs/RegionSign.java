@@ -219,6 +219,8 @@ public class RegionSign {
 				signState.setLine(i, "");
 				continue;
 			}
+			// Signs are for players, so show the display name also on profiles that still use %region%
+			signLines[i] = signLines[i].replace(REGION_TAG, DISPLAY_NAME_TAG);
 			signLines[i] = Message.fromString(signLines[i]).replacements(getRegion()).getSingle();
 			signLines[i] = Utils.applyColors(signLines[i]);
 			signState.setLine(i, signLines[i]);
@@ -226,6 +228,9 @@ public class RegionSign {
 		signState.update(false, false);
 		return true;
 	}
+
+	private static final String REGION_TAG = Message.VARIABLE_START + AreaShop.tagRegionName + Message.VARIABLE_END;
+	private static final String DISPLAY_NAME_TAG = Message.VARIABLE_START + AreaShop.tagRegionDisplayName + Message.VARIABLE_END;
 
 	/**
 	 * Check if the sign needs to update periodically.
