@@ -1,0 +1,73 @@
+name: Dev build
+
+# Builds the default branch and keeps a rolling "dev-build" pre-release with the latest jar,
+# so a server owner can download it without signing in to GitHub.
+# Kept out of ci.yml so other branches don't get a "skipped" publish check.
+on:
+  push:
+    branches: [ "dev/bleeding" ]
+  workflow_dispatch:
+
+concurrency:
+  group: dev-build
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: gradle/actions/wrapper-validation@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@v5
+        with:
+          java-version: '21'
+          distribution: 'zulu'
+          cache: 'gradle'
+
+      - name: Compute dev version
+        id: version
+        shell: bash
+        run: |
+          base=$(grep -E '^version=' gradle.properties | cut -d= -f2)
+          version="${base}+${GITHUB_RUN_NUMBER}.${GITHUB_SHA::7}"
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          echo "Dev version: ${version}"
+
+      - name: Build with Gradle
+        run: ./gradlew clean build "-Pversion=${{ steps.version.outputs.version }}"
+
+      - name: Upload plugin jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: AreaShop-${{ steps.version.outputs.version }}
+          path: AreaShop/build/libs/AreaShop-${{ steps.version.outputs.version }}.jar
+          if-no-files-found: error
+          retention-days: 30
+
+  dev-release:
+    needs: build
+    # workflow_dispatch can run this on any branch; only publish from the default branch
+    if: ${{ github.ref == 'refs/heads/dev/bleeding' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v4
+        with:
+          name: AreaShop-${{ needs.build.outputs.version }}
+          path: dist
+      - name: Publish dev-build pre-release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.build.outputs.version }}
+        run: |
+          gh release delete dev-build --yes --cleanup-tag || true
+          gh release create dev-build dist/*.jar \
+            --prerelease \
+            --target "$GITHUB_SHA" \
+            --title "Dev build ${VERSION}" \
+            --notes "Automated build of ${GITHUB_SHA} from \`${GITHUB_REF_NAME}\`. Not a stable release."

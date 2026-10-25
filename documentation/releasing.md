@@ -4,12 +4,15 @@ Builds run on GitHub Actions. The version lives in `gradle.properties` (`version
 
 ## Dev builds
 
-Every push and pull request runs `.github/workflows/ci.yml`. It builds the plugin with the version
-`<gradle.properties version>+<run number>.<short commit>` (for example `2.9.2-SNAPSHOT+42.d790749`)
-and uploads the jar as a workflow artifact, kept for 30 days.
+Every push to a branch other than `dev/bleeding` runs `.github/workflows/ci.yml`. It builds the plugin
+with the version `<gradle.properties version>+<run number>.<short commit>` (for example
+`2.9.2-SNAPSHOT+42.d790749`) and uploads the jar as a workflow artifact, kept for 30 days. Pull requests
+show the check from the push to their branch; pull requests from forks are not built here (push their
+branch to this repository to build it).
 
-Pushes to the default branch also refresh the `dev-build` pre-release on the Releases page, so the
-latest jar can be downloaded without signing in to GitHub.
+Pushes to `dev/bleeding` run `.github/workflows/dev-build.yml` instead, which does the same build and
+also refreshes the `dev-build` pre-release on the Releases page, so the latest jar can be downloaded
+without signing in to GitHub.
 
 ## Releases
 
