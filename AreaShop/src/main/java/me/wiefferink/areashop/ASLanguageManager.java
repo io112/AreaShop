@@ -30,6 +30,11 @@ import java.io.InputStreamReader;
 
 
 public class ASLanguageManager extends LanguageManager {
+    /**
+     * Folder inside the language folder with user overrides, these files are never overwritten by the plugin.
+     */
+    public static final String CUSTOM_FOLDER = "custom";
+
     private JavaPlugin plugin;
     private String jarLanguagePath;
     private File languageFolder;
@@ -57,6 +62,20 @@ public class ASLanguageManager extends LanguageManager {
         } else {
             defaultLanguage = loadLanguage(defaultLanguageName);
         }
+        // Apply user overrides on top of the active language (bundled files are overwritten on each start)
+        File overrideFile = new File(languageFolder, CUSTOM_FOLDER + File.separator + currentLanguageName + ".yml");
+        if (overrideFile.isFile()) {
+            Map<String, List<String>> overrides = loadLanguage(CUSTOM_FOLDER + File.separator + currentLanguageName, false);
+            if (!overrides.isEmpty()) {
+                Map<String, List<String>> merged = new HashMap<>(currentLanguage);
+                merged.putAll(overrides);
+                if (currentLanguage == defaultLanguage) {
+                    defaultLanguage = merged;
+                }
+                currentLanguage = merged;
+                Log.info("Loaded " + overrides.size() + " custom messages from " + overrideFile.getPath());
+            }
+        }
         this.wgPrefix = wgPrefix;
     }
 
@@ -80,6 +99,10 @@ public class ASLanguageManager extends LanguageManager {
         return new ArrayList<>(message);
     }
 
+    /**
+     * Saves the bundled language files, overwriting existing ones so that updates bring new messages.
+     * Customizations belong in the {@link #CUSTOM_FOLDER} subfolder, which is left untouched.
+     */
     private void saveDefaults() {
         // Create the language folder if it not exists
         if (!languageFolder.exists()) {
@@ -87,6 +110,10 @@ public class ASLanguageManager extends LanguageManager {
                 Log.warn("Could not create language directory: " + languageFolder.getAbsolutePath());
                 return;
             }
+        }
+        File customFolder = new File(languageFolder, CUSTOM_FOLDER);
+        if (!customFolder.exists() && !customFolder.mkdirs()) {
+            Log.warn("Could not create custom language directory: " + customFolder.getAbsolutePath());
         }
         File jarPath;
         try {
