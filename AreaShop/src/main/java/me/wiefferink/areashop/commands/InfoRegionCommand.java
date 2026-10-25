@@ -11,6 +11,7 @@ import me.wiefferink.areashop.commands.util.commandsource.CommandSource;
 import me.wiefferink.areashop.managers.IFileManager;
 import me.wiefferink.areashop.regions.BuyRegion;
 import me.wiefferink.areashop.regions.GeneralRegion;
+import me.wiefferink.areashop.regions.RegionGroup;
 import me.wiefferink.areashop.regions.RentRegion;
 import me.wiefferink.areashop.tools.SimpleMessageBridge;
 import me.wiefferink.areashop.tools.Utils;
@@ -203,7 +204,7 @@ public class InfoRegionCommand extends AreashopCommandBean {
         if (sender.hasPermission("areashop.groupinfo") && !region.getGroupNames().isEmpty()) {
             messageBridge.messageNoPrefix(sender,
                     "info-regionGroups",
-                    Utils.createCommaSeparatedList(region.getGroupNames()));
+                    Utils.createCommaSeparatedList(region.getGroups().stream().map(RegionGroup::getLabel).sorted(String.CASE_INSENSITIVE_ORDER).toList()));
         }
     }
 

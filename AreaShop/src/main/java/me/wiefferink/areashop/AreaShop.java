@@ -120,6 +120,7 @@ public final class AreaShop extends JavaPlugin implements AreaShopApi {
 	public static final String tagPlayerUUID = "uuid";
 	public static final String tagWorldName = "world";
 	public static final String tagRegionName = "region";
+	public static final String tagRegionDisplayName = "displayname";
 	public static final String tagRegionType = "type";
 	public static final String tagPrice = "price";
 	public static final String tagRawPrice = "rawprice";

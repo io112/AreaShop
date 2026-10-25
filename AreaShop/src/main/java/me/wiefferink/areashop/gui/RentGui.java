@@ -169,7 +169,7 @@ public class RentGui implements Listener {
         }
         RentRegion rent = fileManager.getRent(regionName);
         if (rent == null || !rent.isRenter(player)) {
-            messageBridge.message(player, "gui-regionGone", regionName);
+            messageBridge.message(player, "gui-regionGone", rent == null ? regionName : rent.getDisplayName());
             later(() -> open(player, page));
             return;
         }
@@ -218,7 +218,7 @@ public class RentGui implements Listener {
         }
         RentRegion rent = fileManager.getRent(holder.getConfirmRegion());
         if (rent == null || !rent.isRenter(player)) {
-            messageBridge.message(player, "gui-regionGone", holder.getConfirmRegion());
+            messageBridge.message(player, "gui-regionGone", rent == null ? holder.getConfirmRegion() : rent.getDisplayName());
         } else {
             rent.unRent(true, player);
         }
@@ -233,13 +233,13 @@ public class RentGui implements Listener {
                 result.add(rent);
             }
         }
-        result.sort(Comparator.comparing(GeneralRegion::getName, String.CASE_INSENSITIVE_ORDER));
+        result.sort(Comparator.comparing(GeneralRegion::getDisplayName, String.CASE_INSENSITIVE_ORDER));
         return result;
     }
 
     @Nonnull
     private ItemStack regionItem(@Nonnull Player player, @Nonnull RentRegion rent, boolean withActions) {
-        List<String> groups = rent.getGroupNames();
+        List<String> groups = rent.getGroupDisplayNames();
         String groupText = groups.isEmpty() ? text("gui-noGroup") : String.join(", ", groups);
 
         List<String> lore = new ArrayList<>();

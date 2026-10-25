@@ -362,6 +362,38 @@ public abstract class GeneralRegion implements GeneralRegionInterface, Comparabl
 	}
 
 	/**
+	 * Get the readable name of the region, as shown to players.
+	 * @return The display name if one is set, otherwise the region name
+	 */
+	public String getDisplayName() {
+		String displayName = getCustomDisplayName();
+		return displayName == null ? getName() : displayName;
+	}
+
+	/**
+	 * Get the display name set for this region.
+	 * @return The display name, or null if none is set
+	 */
+	public String getCustomDisplayName() {
+		String displayName = config.getString("general.displayName");
+		if(displayName == null || displayName.isBlank()) {
+			return null;
+		}
+		return displayName;
+	}
+
+	/**
+	 * Set the display name of the region.
+	 * @param displayName The new display name, or null to remove it
+	 */
+	public void setDisplayName(String displayName) {
+		if(displayName != null && displayName.isBlank()) {
+			displayName = null;
+		}
+		setSetting("general.displayName", displayName);
+	}
+
+	/**
 	 * Get the lowercase region name.
 	 * @return The region name in lowercase
 	 */
@@ -626,6 +658,19 @@ public abstract class GeneralRegion implements GeneralRegionInterface, Comparabl
 		return result;
 	}
 
+	/**
+	 * Get a sorted list of display names from groups this region is in.
+	 * @return A list with the display names of the groups this region is part of
+	 */
+	public List<String> getGroupDisplayNames() {
+		List<String> result = new ArrayList<>();
+		for(RegionGroup group : getGroups()) {
+			result.add(group.getDisplayName());
+		}
+		result.sort(String.CASE_INSENSITIVE_ORDER);
+		return result;
+	}
+
 	@Override
 	public Object provideReplacement(String variable) {
 		switch (variable) {
@@ -633,6 +678,9 @@ public abstract class GeneralRegion implements GeneralRegionInterface, Comparabl
 			// Basics
 			case AreaShop.tagRegionName -> {
 				return getName();
+			}
+			case AreaShop.tagRegionDisplayName -> {
+				return getDisplayName();
 			}
 			case AreaShop.tagRegionType -> {
 				return getType().getValue().toLowerCase();

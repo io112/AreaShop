@@ -32,6 +32,7 @@ permissions:
       areashop.reload: true
       areashop.setrestore: true
       areashop.setprice: true
+      areashop.setdisplayname: true
       areashop.setduration: true
       areashop.teleport: true
       areashop.teleportall: true
@@ -68,6 +69,7 @@ permissions:
       areashop.createrent.owner: true
       areashop.createbuy.owner: true
       areashop.setprice.landlord: true
+      areashop.setdisplayname.landlord: true
       areashop.setduration.landlord: true
       areashop.destroyrent.landlord: true
       areashop.destroybuy.landlord: true
@@ -142,6 +144,12 @@ permissions:
     default: op
   areashop.setprice.landlord:
     description: Allows you to change the price of a region that you are landlord of
+    default: false
+  areashop.setdisplayname:
+    description: Allows you to change the display name of regions and groups
+    default: op
+  areashop.setdisplayname.landlord:
+    description: Allows you to change the display name of a region that you are landlord of
     default: false
   areashop.setduration:
     description: Allows you to change the duration of a rent

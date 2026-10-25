@@ -34,7 +34,9 @@ import me.wiefferink.areashop.commands.RentCommand;
 import me.wiefferink.areashop.commands.ResellCommand;
 import me.wiefferink.areashop.commands.SchematicEventCommand;
 import me.wiefferink.areashop.commands.SellCommand;
+import me.wiefferink.areashop.commands.SetDisplayNameCommand;
 import me.wiefferink.areashop.commands.SetDurationCommand;
+import me.wiefferink.areashop.commands.SetGroupDisplayNameCommand;
 import me.wiefferink.areashop.commands.SetLandlordCommand;
 import me.wiefferink.areashop.commands.SetOwnerCommand;
 import me.wiefferink.areashop.commands.SetPriceCommand;
@@ -100,7 +102,9 @@ public class AreashopCommands {
             ResellCommand.class,
             SchematicEventCommand.class,
             SellCommand.class,
+            SetDisplayNameCommand.class,
             SetDurationCommand.class,
+            SetGroupDisplayNameCommand.class,
             SetLandlordCommand.class,
             SetOwnerCommand.class,
             SetPriceCommand.class,

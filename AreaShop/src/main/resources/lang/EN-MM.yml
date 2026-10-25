@@ -20,11 +20,18 @@ command: <click:run_command:'%1%'><hover:show_text:'%lang:action|Use %1%|%'><bol
 helpCommand: <click:run_command:'%0%'><hover:show_text:'%lang:action|Use %0%|%'><gold>%0%
   </gold><gray>-
 
-region: '%lang:tRegion|%region%|%'
+region: '%lang:tRegionDisplay|%region%|%displayname%|%'
 
 tRegion: |-
   <click:run_command:'/areashop info region %0%'><hover:show_text:'Region %0%
   %lang:action|Region information|%'><bold>%0%
+
+tRegionDisplay: |-
+  <click:run_command:'/areashop info region %0%'><hover:show_text:'Region %1%
+  <gray>ID: %0%</gray>
+  %lang:action|Region information|%'><bold>%1%
+
+displayname-label: "%0% (%1%)"
 
 player: '%lang:tPlayer|%player%|%'
 
@@ -80,6 +87,8 @@ help-reload: '%lang:helpCommand|/as reload|% Reload all files and update the reg
 help-setrestore: '%lang:helpCommand|/as setrestore|% Set restoring on/off and choose
     profile.'
 help-setprice: '%lang:helpCommand|/as setprice|% Change the price of a region.'
+help-setdisplayname: "%lang:helpCommand|/as setdisplayname|% Change the display name of a region."
+help-setgroupdisplayname: "%lang:helpCommand|/as setgroupdisplayname|% Change the display name of a group."
 help-setduration: '%lang:helpCommand|/as setduration|% Change the duration of a rent
     region.'
 help-settransfer: '%lang:helpCommand|/as settransfer|% Set transfer on/off.'
@@ -272,32 +281,32 @@ info-regionBought: <bold><dark_green>►</dark_green></bold> Bought by %lang:pla
 info-regionReselling: <bold><dark_green>►</dark_green></bold> Bought by %lang:player%,
   currently reselling.
 info-regionExtending: |-
-  <bold><dark_green>►</dark_green></bold> <click:run_command:'/areashop rent %region%'><hover:show_text:'Extend rent of %region%
+  <bold><dark_green>►</dark_green></bold> <click:run_command:'/areashop rent %region%'><hover:show_text:'Extend rent of %displayname%
   with %duration% for %price%
-  %lang:action|Extend rent of %region%|%'><bold>Extend for</bold></hover></click>: <gray>%price% per %duration%.
+  %lang:action|Extend rent of %displayname%|%'><bold>Extend for</bold></hover></click>: <gray>%price% per %duration%.
 info-regionCanBeRented: |-
-  <bold><dark_green>►</dark_green></bold> <click:run_command:'/areashop rent %region%'><hover:show_text:'Rent %region% for %price% per %duration%
-  %lang:action|Rent %region%|%'><bold>Rent for</bold></hover></click>: <gray>%price% per %duration%.
+  <bold><dark_green>►</dark_green></bold> <click:run_command:'/areashop rent %region%'><hover:show_text:'Rent %displayname% for %price% per %duration%
+  %lang:action|Rent %displayname%|%'><bold>Rent for</bold></hover></click>: <gray>%price% per %duration%.
 info-regionCanBeBought: |-
-  <bold><dark_green>►</dark_green></bold> <click:run_command:'/areashop buy %region%'><hover:show_text:'Buy %region% for %price%
-  %lang:action|Buy %region%|%'><bold>Buy for</bold></hover></click>: <gray>%price%.
+  <bold><dark_green>►</dark_green></bold> <click:run_command:'/areashop buy %region%'><hover:show_text:'Buy %displayname% for %price%
+  %lang:action|Buy %displayname%|%'><bold>Buy for</bold></hover></click>: <gray>%price%.
 info-regionReselPrice: '<bold><dark_green>►</dark_green></bold> Resell price: <gray>%resellprice%
     (you can buy it from %lang:player%).'
 info-regionFriends: '<bold><dark_green>►</dark_green></bold> Added friends: <gray>%0%.'
 info-friend: '%lang:tPlayer|%0%|%'
 info-friendRemove: |-
-  %lang:info-friend|%0%|%<click:run_command:'/areashop delfriend %0% %region%'><hover:show_text:'Region %region%
+  %lang:info-friend|%0%|%<click:run_command:'/areashop delfriend %0% %region%'><hover:show_text:'Region %displayname%
   %lang:action|Remove %0% as friend|%'><red>✕
 info-regionMoneyBackBuy: '<bold><dark_green>►</dark_green></bold> Selling payback:
     <gray>%moneyback% (%moneybackpercent%% of the price).'
 info-regionMoneyBackBuyClick: |-
-  <bold><dark_green>►</dark_green></bold> <click:run_command:'/areashop sell %region%'><hover:show_text:'Sell %region% and get back %moneyback%
-  %lang:action|Sell %region%|%'><bold>Selling payback</bold></hover></click>: <gray>%moneyback% (%moneybackpercent%% of the price).
+  <bold><dark_green>►</dark_green></bold> <click:run_command:'/areashop sell %region%'><hover:show_text:'Sell %displayname% and get back %moneyback%
+  %lang:action|Sell %displayname%|%'><bold>Selling payback</bold></hover></click>: <gray>%moneyback% (%moneybackpercent%% of the price).
 info-regionMoneyBackRent: '<bold><dark_green>►</dark_green></bold> Unrenting payback:
     <gray>%moneyback% (%moneybackpercent%% of the remaining time).'
 info-regionMoneyBackRentClick: |-
-  <bold><dark_green>►</dark_green></bold> <click:run_command:'/areashop unrent %region%'><hover:show_text:'Unrent %region% and get back %moneyback%
-  %lang:action|Unrent %region%|%'><bold>Unrenting payback</bold></hover></click>: <gray>%moneyback% (%moneybackpercent%% of the remaining time).
+  <bold><dark_green>►</dark_green></bold> <click:run_command:'/areashop unrent %region%'><hover:show_text:'Unrent %displayname% and get back %moneyback%
+  %lang:action|Unrent %displayname%|%'><bold>Unrenting payback</bold></hover></click>: <gray>%moneyback% (%moneybackpercent%% of the remaining time).
 info-regionMaxExtends: '<bold><dark_green>►</dark_green></bold> Maximum number of
     extensions: <gray>%maxextends% time(s).'
 info-regionNoExtending: <bold><dark_green>►</dark_green></bold> Rent cannot be extended.
@@ -307,9 +316,9 @@ info-regionMaxRentTime: '<bold><dark_green>►</dark_green></bold> In advance re
     <gray>%maxrenttime% at maximum.'
 info-prefix: '<bold><dark_green>►</dark_green></bold> '
 info-regionTeleport: <click:run_command:'/areashop tp %region%'><hover:show_text:'%lang:action|Teleport
-  to %region%|%'><bold>Go to the region
+  to %displayname%|%'><bold>Go to the region
 info-setRegionTeleport: |-
-  <click:run_command:'/areashop settp %region%'><hover:show_text:'%region%
+  <click:run_command:'/areashop settp %region%'><hover:show_text:'%displayname%
   %lang:action|Set teleport location|%'><bold>set teleport location
 info-regionSigns: '<bold><dark_green>►</dark_green></bold> Connected signs: <gray>%0%.'
 info-regionSignLocation: <gray>(%0%, %1%, %2%, %3%)
@@ -361,6 +370,10 @@ setprice-successRemoved: 'Price of %lang:region% has been removed, it will now u
     the price from a group or the default.yml file, new price: %price%.'
 setprice-noLandlord: You don't have permission to change the price because you are
   not the landlord of %lang:region%.
+setdisplayname-noPermission: "You don't have permission to change the display name of a region."
+setdisplayname-noLandlord: "You don't have permission to change the display name because you are not the landlord of %lang:region%."
+setdisplayname-success: "Display name of region %region% changed to %displayname%."
+setdisplayname-successRemoved: "Display name of region %region% has been removed, it is shown as %region% again."
 
 setduration-noPermission: You don't have permission to change the duration of a rent.
 setduration-help: /as setduration \<amount> \<identifier> [region], the region you
@@ -492,6 +505,10 @@ groupinfo-noGroup: There is no group registered with the name '%0%', use /as gro
   to check groups.
 groupinfo-members: 'The following regions are member of group %0%: <gray>%1%.'
 groupinfo-noMembers: Group %0% does not have any members.
+setgroupdisplayname-noPermission: "You don't have permission to change the display name of a group."
+setgroupdisplayname-noGroup: "There is no group registered with the name '%0%', use /as grouplist to check groups."
+setgroupdisplayname-success: "Display name of group %0% changed to %1%."
+setgroupdisplayname-successRemoved: "Display name of group %0% has been removed, it is now shown as %1%."
 
 schemevent-help: /as schemevent \<region> \<created|deleted|rented|unrented|bought|sold>.
 schemevent-wrongEvent: 'The specified event ''%0%'' does not exist, use one of the
@@ -562,7 +579,7 @@ gui-title: My rentals (%0%/%1%)
 gui-previousPage: <yellow>Previous page</yellow> <gray>(%0%/%1%)
 gui-nextPage: <yellow>Next page</yellow> <gray>(%0%/%1%)
 gui-close: <red>Close
-gui-regionName: <gold><bold>%region%
+gui-regionName: <gold><bold>%displayname%
 gui-noGroup: none
 gui-regionGroup: '<gray>Group: <white>%0%'
 gui-regionPrice: '<gray>Price: <white>%price% per %duration%'
@@ -572,7 +589,7 @@ gui-regionExtendsLeft: '<gray>Extensions left: <white>%extendsleft%'
 gui-actionTeleport: <yellow>Left-click</yellow> <gray>- teleport
 gui-actionExtend: <yellow>Right-click</yellow> <gray>- extend by %duration% for %price%
 gui-actionUnrent: <yellow>Shift + right-click</yellow> <gray>- unrent
-gui-confirmTitle: Unrent %region%?
+gui-confirmTitle: Unrent %displayname%?
 gui-confirmYes: <green><bold>Yes, unrent it
 gui-confirmYesLore: <gray>You will get back %moneyback%
 gui-confirmNo: <red><bold>No, keep the region
@@ -756,11 +773,11 @@ timeleft-second: '%0% second'
 timeleft-seconds: '%0% seconds'
 timeleft-ended: Expired
 
-greeting-forrent: '%region% can be rented for %price% per %duration%.'
-greeting-rented: '%region% is rented by %player% until %until%.'
-greeting-forsale: '%region% can be bought for %price%.'
-greeting-bought: '%region% is bought by %player%.'
-greeting-resale: '%region% can be bought for %resellprice% from %player%.'
+greeting-forrent: '%displayname% can be rented for %price% per %duration%.'
+greeting-rented: '%displayname% is rented by %player% until %until%.'
+greeting-forsale: '%displayname% can be bought for %price%.'
+greeting-bought: '%displayname% is bought by %player%.'
+greeting-resale: '%displayname% can be bought for %resellprice% from %player%.'
 
 update-playerNotify: <dark_green>Update from AreaShop V%0% to AreaShop V%1% available,
   get the latest version at </dark_green><click:open_url:'https://github.com/md5sha256/releases'><hover:show_text:'%lang:action|Go
