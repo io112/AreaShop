@@ -24,8 +24,8 @@ migrateLanguages: false
 # The language file that should be used, check the 'lang' folder for build-in languages (use the filename without .yml here).
 # More information can be found here: https://github.com/NLthijs48/AreaShop/wiki/Language-support.
 # NOTE: If you want to use MiniMessage, make sure you're using mmLanguage below.
-# NOTE: The bundled language files are overwritten on every start/reload. To change messages, put only the keys you want
-# to change in 'lang/custom/<language>.yml' (for example 'lang/custom/RU.yml'), that file is never overwritten.
+# NOTE: Messages can be edited directly in the language files (for example 'lang/RU.yml'), edits are kept on start, reload
+# and plugin updates. Alternatively put only the changed keys in 'lang/custom/<language>.yml', which is applied on top.
 language: EN
 
 # Whether you want to use MiniMessage (in Paper) or stick to the older built-in language management for AreaShop messages.

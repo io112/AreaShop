@@ -57,6 +57,11 @@ dependencies {
     testImplementation("com.github.seeseemelk:MockBukkit-v1.21:3.131.0")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.1")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.1")
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
 
 

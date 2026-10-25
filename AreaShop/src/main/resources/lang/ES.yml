@@ -2,12 +2,9 @@
 # ║ Language file of the AreaShop plugin created by NLThijs48, Github can be found at https://github.com/NLthijs48/AreaShop
 # ║ Spanish language file, plugin version 2.5.0, 426/428 messages are translated (100%)
 # ║
-# ║ This file will be overwritten at each startup/reload of the plugin, if you want to change anything then do the following:
-# ║   1: Make a copy of this file
-# ║   2: Rename it to `servername.yml`
-# ║   3: Change the `language` setting in config.yml to `servername`, do not include `.yml`
-# ║   4: Change the messages in the new file to your liking
-# ║   5: Use `/as reload`or reload/restart your server to see the changes
+# ║ You can edit the messages in this file directly, your changes are kept when the plugin starts, reloads or updates.
+# ║ When a plugin update changes a message that you did not edit, that message gets the new text.
+# ║ Use `/as reload` or restart your server to see the changes.
 # ╚═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
 
 "action": "[gold][bold]<%0%>[/bold]"

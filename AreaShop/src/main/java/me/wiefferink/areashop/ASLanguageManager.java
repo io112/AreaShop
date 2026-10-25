@@ -5,9 +5,10 @@ import java.nio.charset.StandardCharsets;
 
 import me.wiefferink.interactivemessenger.Log;
 import me.wiefferink.interactivemessenger.processing.Message;
-import me.wiefferink.interactivemessenger.source.LanguageManager;
+import me.wiefferink.interactivemessenger.source.MessageProvider;
 import me.wiefferink.interactivemessenger.translation.Transifex;
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -23,17 +24,27 @@ import java.util.Collections;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
 
 
-public class ASLanguageManager extends LanguageManager {
+public class ASLanguageManager implements MessageProvider {
     /**
      * Folder inside the language folder with user overrides, these files are never overwritten by the plugin.
      */
     public static final String CUSTOM_FOLDER = "custom";
+    /**
+     * Folder inside the language folder with copies of the bundled files that the language files are based on.
+     */
+    public static final String BUNDLED_FOLDER = ".bundled";
+    /**
+     * Folder inside the language folder with backups of language files that had to be replaced.
+     */
+    public static final String BACKUP_FOLDER = "backups";
 
     private JavaPlugin plugin;
     private String jarLanguagePath;
@@ -48,7 +59,6 @@ public class ASLanguageManager extends LanguageManager {
                              String defaultLanguageName,
                              List<String> chatPrefix,
                              String wgPrefix) {
-        super(plugin, jarLanguagePath, currentLanguageName, defaultLanguageName, chatPrefix);
         this.plugin = plugin;
         this.jarLanguagePath = jarLanguagePath;
         this.chatPrefix = chatPrefix;
@@ -62,7 +72,7 @@ public class ASLanguageManager extends LanguageManager {
         } else {
             defaultLanguage = loadLanguage(defaultLanguageName);
         }
-        // Apply user overrides on top of the active language (bundled files are overwritten on each start)
+        // Apply user overrides on top of the active language
         File overrideFile = new File(languageFolder, CUSTOM_FOLDER + File.separator + currentLanguageName + ".yml");
         if (overrideFile.isFile()) {
             Map<String, List<String>> overrides = loadLanguage(CUSTOM_FOLDER + File.separator + currentLanguageName, false);
@@ -100,8 +110,9 @@ public class ASLanguageManager extends LanguageManager {
     }
 
     /**
-     * Saves the bundled language files, overwriting existing ones so that updates bring new messages.
-     * Customizations belong in the {@link #CUSTOM_FOLDER} subfolder, which is left untouched.
+     * Saves the bundled language files to the language folder without losing edits made to them.
+     * A copy of the bundled version that a file was last based on is kept in {@link #BUNDLED_FOLDER},
+     * so that on a plugin update only the messages the server owner did not change get the new text.
      */
     private void saveDefaults() {
         // Create the language folder if it not exists
@@ -114,6 +125,11 @@ public class ASLanguageManager extends LanguageManager {
         File customFolder = new File(languageFolder, CUSTOM_FOLDER);
         if (!customFolder.exists() && !customFolder.mkdirs()) {
             Log.warn("Could not create custom language directory: " + customFolder.getAbsolutePath());
+        }
+        File bundledFolder = new File(languageFolder, BUNDLED_FOLDER);
+        if (!bundledFolder.exists() && !bundledFolder.mkdirs()) {
+            Log.warn("Could not create bundled language directory: " + bundledFolder.getAbsolutePath());
+            return;
         }
         File jarPath;
         try {
@@ -138,17 +154,11 @@ public class ASLanguageManager extends LanguageManager {
                 if (!entry.isDirectory() && entry.getName()
                         .startsWith(jarLanguagePath + "/") && entry.getName()
                         .endsWith(".yml")) {
-                    // Save the file to disk
-                    File targetFile = new File(languageFolder.getAbsolutePath() + File.separator + entry.getName()
-                            .substring(entry.getName().lastIndexOf("/")));
-                    try (
-                            InputStream input = jar.getInputStream(entry);
-                            OutputStream output = new FileOutputStream(targetFile)
-                    ) {
-                        byte[] bytes = input.readAllBytes();
-                        output.write(bytes);
-                    } catch (IOException e) {
-                        Log.warn("Something went wrong saving a default language file: " + targetFile.getAbsolutePath());
+                    String fileName = entry.getName().substring(entry.getName().lastIndexOf("/") + 1);
+                    try (InputStream input = jar.getInputStream(entry)) {
+                        updateLanguageFile(languageFolder, fileName, input.readAllBytes());
+                    } catch (IOException | InvalidConfigurationException e) {
+                        Log.warn("Something went wrong saving default language file " + fileName + ":", ExceptionUtils.getStackTrace(e));
                     }
                 }
             }
@@ -156,6 +166,84 @@ public class ASLanguageManager extends LanguageManager {
                 IOException e) {
             Log.error("Failed to read zip file:", ExceptionUtils.getStackTrace(e));
         }
+    }
+
+    /**
+     * Brings a language file on disk up to date with the version bundled in the jar.
+     *
+     * @param languageFolder The folder with the language files
+     * @param fileName       The name of the language file, including '.yml'
+     * @param bundled        The content of the file in the jar
+     */
+    static void updateLanguageFile(File languageFolder, String fileName, byte[] bundled) throws IOException, InvalidConfigurationException {
+        File target = new File(languageFolder, fileName);
+        File snapshot = new File(languageFolder, BUNDLED_FOLDER + File.separator + fileName);
+        Files.createDirectories(snapshot.toPath().getParent());
+
+        // New file: save the bundled version
+        if (!target.exists()) {
+            Files.write(target.toPath(), bundled);
+            Files.write(snapshot.toPath(), bundled);
+            return;
+        }
+
+        // File saved by an older version of the plugin, which overwrote it on every start.
+        // There is no way to tell edits apart from changes in the plugin, so keep a backup and start fresh.
+        if (!snapshot.exists()) {
+            if (!Arrays.equals(Files.readAllBytes(target.toPath()), bundled)) {
+                File backupFolder = new File(languageFolder, BACKUP_FOLDER);
+                if (!backupFolder.exists() && !backupFolder.mkdirs()) {
+                    throw new IOException("Could not create language backup directory: " + backupFolder.getAbsolutePath());
+                }
+                String timestamp = new SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date());
+                File backup = new File(backupFolder, fileName.substring(0, fileName.length() - 4) + "-" + timestamp + ".yml");
+                Files.copy(target.toPath(), backup.toPath());
+                Files.write(target.toPath(), bundled);
+                Log.warn("Language file " + fileName + " was replaced by the bundled version, the previous file is saved as "
+                        + backup.getPath() + ". From now on, edits to " + fileName + " are kept when the plugin starts or updates.");
+            }
+            Files.write(snapshot.toPath(), bundled);
+            return;
+        }
+
+        // Bundled version did not change since the file was last updated: keep the file as it is
+        byte[] previousBundled = Files.readAllBytes(snapshot.toPath());
+        if (Arrays.equals(previousBundled, bundled)) {
+            return;
+        }
+
+        // Plugin update: take the new text for every message that was not edited on disk
+        YamlConfiguration current = new YamlConfiguration();
+        current.load(target);
+        YamlConfiguration previous = new YamlConfiguration();
+        previous.loadFromString(new String(previousBundled, StandardCharsets.UTF_8));
+        YamlConfiguration latest = new YamlConfiguration();
+        latest.loadFromString(new String(bundled, StandardCharsets.UTF_8));
+        for (String messageKey : latest.getKeys(false)) {
+            List<String> currentValue = getLines(current, messageKey);
+            if (currentValue == null || currentValue.equals(getLines(previous, messageKey))) {
+                current.set(messageKey, latest.get(messageKey));
+            }
+        }
+        current.save(target);
+        Files.write(snapshot.toPath(), bundled);
+    }
+
+    /**
+     * Get a message from a language file as lines.
+     *
+     * @param file The language file
+     * @param key  The key of the message
+     * @return The lines of the message, or null if the file does not have it
+     */
+    private static List<String> getLines(YamlConfiguration file, String key) {
+        if (!file.contains(key)) {
+            return null;
+        }
+        if (file.isList(key)) {
+            return file.getStringList(key);
+        }
+        return Collections.singletonList(file.getString(key));
     }
 
     private Map<String, List<String>> loadLanguage(String key) {

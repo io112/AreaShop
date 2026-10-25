@@ -45,8 +45,11 @@ Minecraft server. AreaShop lets players rent and buy WorldGuard regions through 
 
 - Messages are referenced by key and resolved through the language files; never hard-code
   player-facing text in Java.
-- The bundled `lang/*.yml` files are rewritten from the jar on every start and `/as reload`. Server
-  owners customise messages in `plugins/AreaShop/lang/custom/<language>.yml`, which is layered on top.
+- `ASLanguageManager` saves the bundled `lang/*.yml` files without losing edits: `lang/.bundled/` keeps
+  the bundled version each file was based on, and on a plugin update only messages that were not edited
+  on disk get the new text. `lang/custom/<language>.yml` is an optional overlay with only changed keys.
+  Changing an existing message's text in the bundled files therefore reaches servers only where it was
+  not customised; use a new key when the old text must not survive.
 - `EN.yml` uses the legacy InteractiveMessenger format; `EN-MM.yml` is the MiniMessage variant used
   when `useMiniMessage: true`. Keep both in sync when adding or changing a message.
 

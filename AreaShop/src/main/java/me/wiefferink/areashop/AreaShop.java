@@ -37,7 +37,6 @@ import me.wiefferink.areashop.tools.Utils;
 import me.wiefferink.areashop.tools.version.Version;
 import me.wiefferink.areashop.tools.version.VersionUtil;
 import me.wiefferink.bukkitdo.Do;
-import me.wiefferink.interactivemessenger.source.LanguageManager;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -83,7 +82,7 @@ public final class AreaShop extends JavaPlugin implements AreaShopApi {
 	private WorldEditInterface worldEditInterface = null;
 	private MessageBridge messageBridge;
 	private IFileManager fileManager = null;
-	private LanguageManager languageManager = null;
+	private ASLanguageManager languageManager = null;
 	private CacheManager cacheManager = null;
 	private SignLinkerManager signLinkerManager = null;
 	private FeatureManager featureManager = null;
@@ -568,7 +567,7 @@ public final class AreaShop extends JavaPlugin implements AreaShopApi {
 	 * Function to get the LanguageManager.
 	 * @return the LanguageManager
 	 */
-	public LanguageManager getLanguageManager() {
+	public ASLanguageManager getLanguageManager() {
 		return languageManager;
 	}
 
