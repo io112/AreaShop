@@ -7,6 +7,7 @@ import me.wiefferink.areashop.commands.util.AreaShopCommandException;
 import me.wiefferink.areashop.commands.util.AreashopCommandBean;
 import me.wiefferink.areashop.commands.util.commandsource.CommandSource;
 import me.wiefferink.areashop.managers.IFileManager;
+import me.wiefferink.areashop.regions.RegionGroup;
 import me.wiefferink.areashop.tools.Utils;
 import org.bukkit.command.CommandSender;
 import org.incendo.cloud.Command;
@@ -56,7 +57,10 @@ public class GroupListCommand extends AreashopCommandBean {
 		if (!context.hasPermission("areashop.grouplist")) {
 			throw new AreaShopCommandException("grouplist-noPermission");
 		}
-		List<String> groups = this.fileManager.getGroupNames();
+		List<String> groups = this.fileManager.getGroups().stream()
+				.map(RegionGroup::getLabel)
+				.sorted(String.CASE_INSENSITIVE_ORDER)
+				.toList();
 		CommandSender sender = context.sender().sender();
 		if(groups.isEmpty()) {
 			messageBridge.message(sender, "grouplist-noGroups");

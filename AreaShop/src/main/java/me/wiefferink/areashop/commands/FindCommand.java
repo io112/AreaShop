@@ -107,7 +107,7 @@ public class FindCommand extends AreashopCommandBean {
         GeneralRegion.RegionType regionType = context.get(KEY_REGION_TYPE);
         Message onlyInGroup;
         if (group != null) {
-            onlyInGroup = Message.fromKey("find-onlyInGroup").replacements(group.getName());
+            onlyInGroup = Message.fromKey("find-onlyInGroup").replacements(group.getDisplayName());
         } else {
             onlyInGroup = Message.empty();
         }

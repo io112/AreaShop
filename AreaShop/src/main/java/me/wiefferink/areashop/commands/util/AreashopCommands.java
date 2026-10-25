@@ -17,6 +17,7 @@ import me.wiefferink.areashop.commands.GroupAddCommand;
 import me.wiefferink.areashop.commands.GroupDelCommand;
 import me.wiefferink.areashop.commands.GroupInfoCommand;
 import me.wiefferink.areashop.commands.GroupListCommand;
+import me.wiefferink.areashop.commands.GuiCommand;
 import me.wiefferink.areashop.commands.HelpCommand;
 import me.wiefferink.areashop.commands.InfoBaseCommand;
 import me.wiefferink.areashop.commands.InfoCommand;
@@ -33,7 +34,9 @@ import me.wiefferink.areashop.commands.RentCommand;
 import me.wiefferink.areashop.commands.ResellCommand;
 import me.wiefferink.areashop.commands.SchematicEventCommand;
 import me.wiefferink.areashop.commands.SellCommand;
+import me.wiefferink.areashop.commands.SetDisplayNameCommand;
 import me.wiefferink.areashop.commands.SetDurationCommand;
+import me.wiefferink.areashop.commands.SetGroupDisplayNameCommand;
 import me.wiefferink.areashop.commands.SetLandlordCommand;
 import me.wiefferink.areashop.commands.SetOwnerCommand;
 import me.wiefferink.areashop.commands.SetPriceCommand;
@@ -82,6 +85,7 @@ public class AreashopCommands {
             GroupDelCommand.class,
             GroupInfoCommand.class,
             GroupListCommand.class,
+            GuiCommand.class,
             HelpCommand.class,
             InfoCommand.class,
             InfoBaseCommand.class,
@@ -98,7 +102,9 @@ public class AreashopCommands {
             ResellCommand.class,
             SchematicEventCommand.class,
             SellCommand.class,
+            SetDisplayNameCommand.class,
             SetDurationCommand.class,
+            SetGroupDisplayNameCommand.class,
             SetLandlordCommand.class,
             SetOwnerCommand.class,
             SetPriceCommand.class,

@@ -72,10 +72,10 @@ public class GroupInfoCommand extends AreashopCommandBean {
         RegionGroup group = context.get(KEY_GROUP);
         Set<String> members = group.getMembers();
         if (members.isEmpty()) {
-            throw new AreaShopCommandException("groupinfo-noMembers", group.getName());
+            throw new AreaShopCommandException("groupinfo-noMembers", group.getLabel());
         }
         String seperatedMembers = Utils.createCommaSeparatedList(members);
-        this.messageBridge.message(context.sender().sender(), "groupinfo-members", group.getName(), seperatedMembers);
+        this.messageBridge.message(context.sender().sender(), "groupinfo-members", group.getLabel(), seperatedMembers);
     }
 
 }

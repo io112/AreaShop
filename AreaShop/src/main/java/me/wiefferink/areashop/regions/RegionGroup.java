@@ -3,6 +3,7 @@ package me.wiefferink.areashop.regions;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import me.wiefferink.areashop.managers.IFileManager;
+import me.wiefferink.interactivemessenger.processing.Message;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -16,6 +17,7 @@ import java.util.Set;
 public class RegionGroup {
 
     private final IFileManager fileManager;
+	private final Plugin plugin;
 	private final String name;
 	private final Set<String> regions;
 	private Set<String> autoRegions;
@@ -30,6 +32,7 @@ public class RegionGroup {
 	@AssistedInject
 	RegionGroup(@Nonnull Plugin plugin, @Nonnull IFileManager fileManager, @Assisted String name) {
         this.fileManager = fileManager;
+		this.plugin = plugin;
 		this.name = name;
 		this.autoDirty = true;
 		setSetting("name", name);
@@ -165,6 +168,66 @@ public class RegionGroup {
 	 */
 	public String getName() {
 		return name;
+	}
+
+	/**
+	 * Get the readable name of the group, as shown to players.
+	 * Uses 'displayName' from groups.yml, then 'groupDisplayNames' from config.yml, then the group name.
+	 * @return The display name of the group, never null
+	 */
+	public String getDisplayName() {
+		String displayName = getCustomDisplayName();
+		if(displayName == null) {
+			ConfigurationSection configNames = plugin.getConfig().getConfigurationSection("groupDisplayNames");
+			if(configNames != null) {
+				for(String key : configNames.getKeys(false)) {
+					if(key.equalsIgnoreCase(name)) {
+						displayName = configNames.getString(key);
+						break;
+					}
+				}
+			}
+		}
+		if(displayName == null || displayName.isBlank()) {
+			return getName();
+		}
+		return displayName;
+	}
+
+	/**
+	 * Get a label for admin output, showing both the display name and the group name if they differ.
+	 * @return The label of the group
+	 */
+	public String getLabel() {
+		String displayName = getDisplayName();
+		if(displayName.equals(getName())) {
+			return getName();
+		}
+		return Message.fromKey("displayname-label").replacements(displayName, getName()).getPlain();
+	}
+
+	/**
+	 * Get the display name stored for this group in groups.yml.
+	 * @return The display name, or null if none is set
+	 */
+	public String getCustomDisplayName() {
+		String displayName = getSettings().getString("displayName");
+		if(displayName == null || displayName.isBlank()) {
+			return null;
+		}
+		return displayName;
+	}
+
+	/**
+	 * Set the display name of this group in groups.yml.
+	 * @param displayName The new display name, or null to remove it
+	 */
+	public void setDisplayName(String displayName) {
+		if(displayName != null && displayName.isBlank()) {
+			displayName = null;
+		}
+		setSetting("displayName", displayName);
+		saveRequired();
 	}
 
 	/**

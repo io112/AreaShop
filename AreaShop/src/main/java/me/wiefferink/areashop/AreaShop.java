@@ -15,6 +15,7 @@ import me.wiefferink.areashop.features.signs.SignManager;
 import me.wiefferink.areashop.interfaces.AreaShopInterface;
 import me.wiefferink.areashop.interfaces.WorldEditInterface;
 import me.wiefferink.areashop.interfaces.WorldGuardInterface;
+import me.wiefferink.areashop.gui.RentGui;
 import me.wiefferink.areashop.listeners.PlayerLoginLogoutListener;
 import me.wiefferink.areashop.managers.CacheManager;
 import me.wiefferink.areashop.managers.FeatureManager;
@@ -119,6 +120,7 @@ public final class AreaShop extends JavaPlugin implements AreaShopApi {
 	public static final String tagPlayerUUID = "uuid";
 	public static final String tagWorldName = "world";
 	public static final String tagRegionName = "region";
+	public static final String tagRegionDisplayName = "displayname";
 	public static final String tagRegionType = "type";
 	public static final String tagPrice = "price";
 	public static final String tagRawPrice = "rawprice";
@@ -299,6 +301,7 @@ public final class AreaShop extends JavaPlugin implements AreaShopApi {
 
 		// Register the event listeners
 		getServer().getPluginManager().registerEvents(new PlayerLoginLogoutListener(this, messageBridge, this.cacheManager), this);
+		getServer().getPluginManager().registerEvents(injector.getInstance(RentGui.class), this);
 
 		setupTasks();
 
